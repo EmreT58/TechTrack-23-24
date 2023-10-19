@@ -1,30 +1,20 @@
-/*  The following array contains strings with randomized capitals.
-	You're tasked with converting all strings to lowercase with a
-	first letter capitalized */
-
-const data = [
-	"robert",
-	"vincent",
-	"lAuRa",
-	"Cas",
-	"wIMER",
-	"rOOs"
-];
-
-/* This should the result be:
-
-	const data = [
-		"Robert",
-		"Vincent",
-		"Laura",
-		"Cas",
-		"Wimer",
-		"Roos"
-	];
-
-*/
-
-
-function convertArrayStringsToCapitalized() {
-	/* Write your functionality here and log the result */
-}
+function convertArrayStringsToCapitalized(arr) {
+    const result = arr.map((str) => {
+      // Convert the first character to uppercase and the rest to lowercase
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    });
+  
+    return result;
+  }
+  
+  const data = [
+    "robert",
+    "vincent",
+    "lAuRa",
+    "Cas",
+    "wIMER",
+    "rOOs"
+  ];
+  
+  const convertedData = convertArrayStringsToCapitalized(data);
+  console.log(convertedData);
