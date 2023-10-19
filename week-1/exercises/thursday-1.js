@@ -36,26 +36,39 @@ const data = [
 /* We only need one function for this, in further exercises, we can try and splitting them
    but for now, we'll only use a single function
 */
+
 function generateTable() {
-	/* There are a couple steps we need to take, first, we need to select
-	   the table, table heading and table body and save them to a variable
-	/*
-
-	/* First, we'll generate a row of table headings, we need to grab the keys
-	   from all the objects, not the values! We can achieve this by using the
-	   Object.keys(data[0]) method of the native Object. It returns an array of all
-	   keys an object contains. We can loop over that array using forEach();
-	   It's up to you to find out how then to generate the corresponding HTML.
-	*/
-
-	/* Your HTML should now display the headers in a <th></th> structure. */
-
-	/* After this, we can loop over the amount of objects inside of the array
-	   (looping over an array of objects can be useful here, for...of). For every entry (forEach())
-	   we want to create a new row (<tr>/tr>) and append three datapoints (<td>)
-	   inside of it containing the id, name and kaas.
-	*/
-
-}
-
-generateTable()
+	// Step 1: Select the table, table heading, and table body and save them to variables
+	const table = document.querySelector('table');
+	const thead = table.querySelector('thead tr');
+	const tbody = table.querySelector('tbody');
+  
+	// Step 2: Generate table headers
+	const keys = Object.keys(data[0]);
+	keys.forEach((key) => {
+	  const th = document.createElement('th');
+	  th.textContent = key;
+	  thead.appendChild(th);
+	});
+  
+	// Step 3: Loop over the data and create table rows with data points
+	data.forEach((item) => {
+	  const tr = document.createElement('tr');
+  
+	  // Loop through the keys and create table data cells for each key
+	  keys.forEach((key) => {
+		const td = document.createElement('td');
+		td.textContent = item[key];
+		tr.appendChild(td);
+	  });
+  
+	  tbody.appendChild(tr);
+	});
+  
+	// Append the table heading and body to the table
+	table.appendChild(thead);
+	table.appendChild(tbody);
+  }
+  
+  generateTable();
+  
