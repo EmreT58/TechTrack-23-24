@@ -58,7 +58,54 @@ const data = [
 */
 
 function generateTable() {
-	/* Continue using the code from thursday-1.js */
-}
-
-generateTable()
+	// Step 1: Select the table, table heading, and table body and save them to variables
+	const table = document.querySelector('table');
+	const thead = table.querySelector('thead tr');
+	const tbody = table.querySelector('tbody');
+  
+	// Step 2: Generate table headers
+	const keys = Object.keys(data[0]);
+	keys.forEach((key) => {
+	  const th = document.createElement('th');
+	  th.textContent = key;
+	  thead.appendChild(th);
+	});
+  
+	// Step 3: Loop over the data and create table rows with data points
+	data.forEach((item) => {
+	  const tr = document.createElement('tr');
+  
+	  // Loop through the keys and create table data cells for each key
+	  keys.forEach((key) => {
+		const td = document.createElement('td');
+		let value = item[key];
+  
+		// Normalize the data based on the key
+		if (key === "id") {
+		  // Convert "id" to a number
+		  value = parseInt(value);
+		} else if (key === "name") {
+		  // Normalize "name" to have the first letter capitalized and the rest in lowercase
+		  value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+		} else if (key === "kaas") {
+		  // Convert "kaas" to a string for HTML display
+		  value = String(value);
+		} else if (key === "coords") {
+		  // Loop over the "coords" object and generate a custom string
+		  value = `Latitude: ${item.coords.lat}, Longitude: ${item.coords.long}`;
+		}
+  
+		td.textContent = value;
+		tr.appendChild(td);
+	  });
+  
+	  tbody.appendChild(tr);
+	});
+  
+	// Append the table heading and body to the table element
+	table.appendChild(thead);
+	table.appendChild(tbody);
+  }
+  
+  generateTable();
+  
