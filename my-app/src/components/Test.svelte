@@ -1,15 +1,15 @@
 <script>
     import { onMount } from "svelte";
-
-    onMount(async () => {
-        
-    })
+    import * as d3 from 'd3';
+    
+    onMount(async () => { //Javascript komt hier in
+        console.log('test');
+    });
 </script>
+<!-- HTML komt hier -->
+<p></p>
 
-<main>
-
-</main>
-
-<style>
+<!-- CSS komt hiern -->
+<style> 
 
 </style>
