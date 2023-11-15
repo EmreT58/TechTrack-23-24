@@ -3,21 +3,22 @@
     import * as d3 from 'd3';
     
     onMount(async () => { //Javascript komt hier in
-        console.log('test');
+        console.log('dit is de header test');
 
         // .on('mouseover touchstart', (e,d) => { == eventlister
 
     });
 </script>
 <!-- HTML komt hier -->
-<section>
-    <p>test</p>
+<!-- deze component gebruiken om een header te maken-->
+<section id="header">
+    <h1>header</h1>
 </section>
 
 <!-- CSS komt hiern -->
 <style> 
     section {
-        background: blue;
-        padding: 1em;
+        height: 95vh;
+        background-color: lightblue;
     }
 </style>
