@@ -1,12 +1,14 @@
 <script>
     import { onMount } from "svelte";
     import * as d3 from 'd3';
+    import dataset from "../lib/data.json";
+
     
     onMount(async () => { //Javascript komt hier in
-        console.log('dit is de header test');
+        console.log(dataset);
+
 
         // .on('mouseover touchstart', (e,d) => { == eventlister
-
     });
 </script>
 <!-- HTML komt hier -->
