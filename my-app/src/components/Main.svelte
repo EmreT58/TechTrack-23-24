@@ -61,7 +61,7 @@ svg.selectAll('text')
 <style> 
     section {
         height: 95vh;
-        background-color: goldenrod;
+        background-color: beige;
     }
     article {
         border: 5px solid black;

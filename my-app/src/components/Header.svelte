@@ -1,16 +1,16 @@
 <script>
   import { onMount } from "svelte";
   import * as d3 from 'd3';
-  import dataset from "../lib/data.json";
+  // import dataset from "../lib/data.json";
 
   // Fake data for demonstration
-  // const dataset = [
-  //   { label: "Category A", value: 30 },
-  //   { label: "Category B", value: 45 },
-  //   { label: "Category C", value: 20 },
-  //   { label: "Category D", value: 60 },
-  //   { label: "Category E", value: 10 }
-  // ];
+  const dataset = [
+    { label: "Khabib Nurmagomedov", value: 30 },
+    { label: "Conor Mcgregor", value: 45 },
+    { label: "Dustin Poirier", value: 20 },
+    { label: "Islam Makhachev", value: 60 },
+    { label: "Jon Jones", value: 10 }
+  ];
 
   onMount(() => {
     // Select the chart container
@@ -71,7 +71,7 @@
   <style>
     section {
       height: 95vh;
-      background-color: lightblue;
+      background-color: antiquewhite;
       display: flex;
       justify-content: center;
       align-items: center;
