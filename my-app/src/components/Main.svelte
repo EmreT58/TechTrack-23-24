@@ -1,72 +1,76 @@
 <script>
     import { onMount } from "svelte";
     import * as d3 from 'd3';
+    import dataset from "../lib/newdata.json";
     
-            // Data
-let myData = [40, 10, 20, 60, 30];
-    onMount(async () => { //Javascript komt hier in
-        console.log('Dit is de main test');
+  // Sample data for Conor McGregor
+  const fighterData = {
+    "name": "Conor McGregor",
+    "significant_strikes_landed_per_minute": 5.32,
+    "significant_strikes_absorbed_per_minute": 4.66,
+    "average_takedowns_landed_per_15_minutes": 0.67,
+    "average_submissions_attempted_per_15_minutes": 5.32
+  };
+  
+    onMount(() => {
 
+    const width = 500;
+    const height = 500;
 
+    const svg = d3.select("section")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .append("g")
+      .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-// Chart dimensions
-const width = 400;
-const height = 80;
+    const keys = Object.keys(fighterData).slice(1); // Exclude "name" and "wins" from key
+    const values = keys.map(key => fighterData[key]);
 
-// Create an SVG element
-const svg = d3.select('#chart')
-  .attr('width', width)
-  .attr('height', height);
+    const maxRadius = Math.min(width, height) / 2 - 50;
 
-// Create bars
-svg.selectAll('rect')
-  .data(myData)
-  .enter()
-  .append('rect')
-  .attr('x', (d, i) => i * 30)
-  .attr('y', (d) => height - d) // Invert the bars to have the taller bars at the bottom
-  .attr('width', 20)
-  .attr('height', (d) => d);
+    const radiusScale = d3.scaleLinear()
+      .domain([0, d3.max(values)])
+      .range([0, maxRadius]);
 
-// Optional: Add labels to the bars
-svg.selectAll('text')
-  .data(myData)
-  .enter()
-  .append('text')
-  .attr('x', (d, i) => i * 30 + 10)
-  .attr('y', (d) => height - d - 5) // Adjust text position for readability
-  .attr('text-anchor', 'middle') // Center the text
-  .text((d) => d);
+    const angleScale = d3.scaleBand()
+      .domain(keys)
+      .range([0, 2 * Math.PI]);
+
+    const line = d3.lineRadial()
+      .angle(d => angleScale(d))
+      .radius(d => radiusScale(fighterData[d]));
+
+    svg.append("path")
+      .datum(keys)
+      .attr("d", line)
+      .attr("fill", "steelblue")
+      .attr("opacity", 0.7)
+      .attr("stroke", "black")
+      .attr("stroke-width", 1);
+
+    // Adding labels
+    svg.selectAll("text")
+      .data(keys)
+      .enter().append("text")
+      .attr("x", (d, i) => radiusScale(fighterData[d]) * Math.cos(angleScale(d) - Math.PI / 2))
+      .attr("y", (d, i) => radiusScale(fighterData[d]) * Math.sin(angleScale(d) - Math.PI / 2))
+      .attr("dy", "0.35em")
+      .text(d => d)
+      .attr("text-anchor", "middle");
 
 
     });
 </script>
-<!-- HTML komt hier -->
-<!-- deze component gebruiken om een header te maken-->
-<section id="main">
-    <h1>Main</h1>
-    <article>
-        <h2>Artikel</h2>
-    </article>
-    <article>
-        <h2>Artikel</h2>
-    </article>
-    <article>
-        <h2>Artikel</h2>
-        <p>je bent niet hard</p>    
-    </article>
+
+<!-- HTML -->
+
+<section>
+  <h1>Radial Chart</h1>
 </section>
 
-<!-- CSS komt hiern -->
-<style> 
-    section {
-        height: 95vh;
-        background-color: beige;
-    }
-    article {
-        border: 5px solid black;
-        margin: 1em;
-        border-radius: 15px;
-        padding: 1rem;
-    }
+<!-- CSS -->
+<style>
+
 </style>
+  

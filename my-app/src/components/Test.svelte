@@ -93,17 +93,9 @@
 </script>
 
 <!-- HTML -->
-
-<section></section>
+<h1>Fighter</h1>
 
 <!-- CSS -->
 <style>
-section {
-    height: 95vh;
-    background-color: aliceblue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 </style>
   

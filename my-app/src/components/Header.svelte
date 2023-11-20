@@ -59,22 +59,13 @@
       .call(d3.axisLeft(yScale));
   });
 </script>
-
-
-  
   <!-- HTML -->
   <section>
+    <h1>Fighter 2</h1>
     <div id="chart-container"></div>
   </section>
-  
   <!-- CSS -->
   <style>
-    section {
-      height: 95vh;
-      background-color: antiquewhite;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+
   </style>
   
