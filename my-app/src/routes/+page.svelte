@@ -9,7 +9,7 @@
 </script>
 
 <main>
-    <article class="row">
+    <!-- <article class="row">
         <section><Bubbleplot/></section>
     </article>
 
@@ -33,7 +33,13 @@
 
     <article class="row">
         <section><Scatterplot/></section>
-    </article>
+    </article> -->
+    <Bubbleplot/>
+    <Test/>
+    <Header/>
+    <Main/>
+    <Scatterplot/>
+    <Footer/>
 
 </main>
 
