@@ -6,45 +6,17 @@
     import Test from '../components/Test.svelte'
     import Bubbleplot from '../components/Bubbleplot.svelte'
     import Scatterplot from '../components/Scatterplot.svelte'
+    import P4p from '../components/P4p.svelte';
+    import Radarchart from '../components/Radarchart.svelte';
 </script>
 
 <main>
-    <!-- <article class="row">
-        <section><Bubbleplot/></section>
-    </article>
-
-    <article class="row">
-        <section class="column">
-            <Test/>
-        </section>
-        <section class="column">
-            <Header/>
-        </section>
-    </article>
-
-    <article class="row">
-        <section class="column">
-            <Main/>     
-        </section>
-        <section class="column">
-            
-        </section>
-    </article>
-
-    <article class="row">
-        <section><Scatterplot/></section>
-    </article> -->
-    <Bubbleplot/>
-    <Test/>
-    <Header/>
-    <Main/>
-    <Scatterplot/>
-    <Footer/>
-
+<!-- <P4p/> -->
+<Radarchart/>
 </main>
 
 <style>
-    .row {
+    /* .row {
         display: flex;
         flex-direction: row;
         border: 3px solid red;
@@ -57,5 +29,5 @@
         width: 50%;
         height: auto;
         margin: 10px;
-    }
+    } */
 </style>
