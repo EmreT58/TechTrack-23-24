@@ -8,11 +8,14 @@
     import Scatterplot from '../components/Scatterplot.svelte'
     import P4p from '../components/P4p.svelte';
     import Radarchart from '../components/Radarchart.svelte';
+    import Fighter1 from '../components/Fighter1.svelte';
+    import Divergingbarchart from '../components/Divergingbarchart.svelte';
+    import Fighterselections from '../components/Fighterselections.svelte';
 </script>
-
+<!-- Data visualisation components go in the main -->
 <main>
-<!-- <P4p/> -->
-<Radarchart/>
+<Fighterselections/>
+<Test/>
 </main>
 
 <style>
