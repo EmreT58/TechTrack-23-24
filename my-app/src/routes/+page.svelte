@@ -14,8 +14,10 @@
 </script>
 <!-- Data visualisation components go in the main -->
 <main>
-<Fighterselections/>
-<Test/>
+<Fighter1/>
+<Divergingbarchart/>
+<Radarchart/>
+
 </main>
 
 <style>

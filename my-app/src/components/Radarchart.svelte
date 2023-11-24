@@ -28,13 +28,14 @@
       // Function to update a single radar chart
       function updateChart(svg, fighter, color) {
         // Update lines
+        console.log("change player", svg, fighter);
         svg.selectAll(".line")
-          .data([fighter])
+          .data(metrics)
           .join("path")
           .attr("class", "line")
           .attr("d", d3.lineRadial()
             .angle((_, i) => (i * 2 * Math.PI) / metrics.length)
-            .radius(d => rScale(d.metrics[metrics[i]]))
+            .radius((d, i) => rScale(fighter.metrics[metrics[i]]))
           )
           .attr("stroke", color)
           .attr("fill", color)
@@ -114,7 +115,7 @@
           .attr("class", "line")
           .attr("d", d3.lineRadial()
             .angle((_, i) => (i * 2 * Math.PI) / metrics.length)
-            .radius(d => rScale(d.metrics[metric]))
+            .radius((d, i) => rScale(d.metrics[metrics[i]]))
           )
           .attr("stroke", "blue")
           .attr("stroke-width", 2)
@@ -128,7 +129,7 @@
           .attr("class", "line")
           .attr("d", d3.lineRadial()
             .angle((_, i) => (i * 2 * Math.PI) / metrics.length)
-            .radius(d => rScale(d.metrics[metric]))
+            .radius((d, i) => rScale(d.metrics[i]))
           )
           .attr("stroke", "red")
           .attr("stroke-width", 2)
