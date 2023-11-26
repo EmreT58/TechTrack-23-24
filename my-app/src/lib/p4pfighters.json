@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "Islam Makhachev",
     "nickname": "",
     "p4p_ranking": 1,
@@ -21,6 +22,7 @@
     "average_submissions_attempted_per_15_minutes": 2.46
   },
   {
+    "id": 2,
     "name": "Jon Jones",
     "nickname": "Bones",
     "p4p_ranking": 2,
@@ -42,6 +44,7 @@
     "average_submissions_attempted_per_15_minutes": 4.29
   },
   {
+    "id": 3,
     "name": "Alexander Volkanovski",
     "nickname": "The Great",
     "p4p_ranking": 3,
@@ -63,6 +66,7 @@
     "average_submissions_attempted_per_15_minutes": 6.19
   },
   {
+    "id": 4,
     "name": "Leon Edwards",
     "nickname": "Rocky",
     "p4p_ranking": 4,
@@ -84,6 +88,7 @@
     "average_submissions_attempted_per_15_minutes": 2.8
   },
   {
+    "id": 5,
     "name": "Alex Pereira",
     "nickname": "Poatan",
     "p4p_ranking": 5,
@@ -105,6 +110,7 @@
     "average_submissions_attempted_per_15_minutes": 5
   },
   {
+    "id": 6,
     "name": "Charles Oliveira",
     "nickname": "Do Bronxs",
     "p4p_ranking": 6,
@@ -126,6 +132,7 @@
     "average_submissions_attempted_per_15_minutes": 3.54
   },
   {
+    "id": 7,
     "name": "Sean O'Malley",
     "nickname": "Sugar",
     "p4p_ranking": 7,
@@ -147,6 +154,7 @@
     "average_submissions_attempted_per_15_minutes": 7.25
   },
   {
+    "id": 8,
     "name": "Sean Strickland",
     "nickname": "",
     "p4p_ranking": 8,
@@ -168,6 +176,7 @@
     "average_submissions_attempted_per_15_minutes": 5.82
   },
   {
+    "id": 9,
     "name": "Israel Adesanya",
     "nickname": "The Last Stylebender",
     "p4p_ranking": 9,
@@ -189,6 +198,7 @@
     "average_submissions_attempted_per_15_minutes": 3.93
   },
   {
+    "id": 10,
     "name": "Alexandre Pantoja",
     "nickname": "The Cannibal",
     "p4p_ranking": 10,

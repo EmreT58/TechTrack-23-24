@@ -10,29 +10,25 @@
     import Radarchart from '../components/Radarchart.svelte';
     import Fighter1 from '../components/Fighter1.svelte';
     import Divergingbarchart from '../components/Divergingbarchart.svelte';
-    import Fighterselections from '../components/Fighterselections.svelte';
+    import Fighterselector from '../components/Fighterselector.svelte';
 </script>
 <!-- Data visualisation components go in the main -->
 <main>
-<Fighter1/>
-<Divergingbarchart/>
-<Radarchart/>
-
+    <Radarchart/>
+    <Fighter1/>
 </main>
 
 <style>
-    /* .row {
+    main {
         display: flex;
-        flex-direction: row;
-        border: 3px solid red;
-        height: 95vh;
-        width: 100%;
-        justify-content: space-around;
-    }
-    .column {
-        border: 1px solid green;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        margin: auto;
         width: 50%;
-        height: auto;
-        margin: 10px;
-    } */
+        background-color: aliceblue;
+        padding: 1.5em;
+        border-radius: 50px;
+        margin: 1em auto 1em auto;
+    }
 </style>
