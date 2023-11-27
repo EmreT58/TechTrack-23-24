@@ -3,13 +3,34 @@
     import { onMount } from "svelte";
     import * as d3 from 'd3';
     import dataset from "../lib/p4pfighters.json";
-  
+    import { storeFighter1, storeFighter2 } from '../lib/selectedFighters.js';
+
+    var d3Active = false;
+
+    // Function in order to highlight the 2 selected fighters
+    storeFighter1.subscribe((fighterId) => {
+      console.log("storeupdate", fighterId);
+      fighterId = +fighterId;
+      if (d3Active == true) {
+        d3.selectAll('circle.fighterBubble').style("fill", (data) => data.id === fighterId ? "blue" : " ");
+      } 
+    })
+
+    // Function in order to highlight the 2 selected fighters
+    storeFighter2.subscribe((fighterId) => {
+      console.log("storeupdate", fighterId);
+      fighterId = +fighterId;
+      if (d3Active == true) {
+        d3.selectAll('circle.fighterBubble').style("fill", (data) => data.id === fighterId ? "red" : " ");
+      } 
+    })
+
     onMount(() => {
-      // Choose the fighter to highlight (e.g., Islam Makhachev)
-      const highlightFighter = "Islam Makhachev";
-  
+      d3Active = true;
+      
       // Extract data for the scatterplot
       const scatterData = dataset.map(fighter => ({
+        id: fighter.id,
         name: fighter.name,
         height: fighter.height_cm,
         reach: fighter.reach_in_cm,
@@ -58,7 +79,7 @@
         .attr("cx", d => xScale(d.reach))
         .attr("cy", d => yScale(d.height))
         .attr("r", d => sizeScale(d.weight))
-        .style("fill", (d) => (d.name === highlightFighter) ? "red" : "blue")
+        .classed('fighterBubble', true)
         .style("opacity", 0.7)
         .on("mouseover", (event, d) => {
           tooltip.style("visibility", "visible")
@@ -108,3 +129,7 @@
 <!-- HTML -->
 <h1>Scatterplot: Height vs. Reach</h1>
 <section></section>
+
+<style>
+
+</style>

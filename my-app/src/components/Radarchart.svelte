@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import * as d3 from 'd3';
   import dataset from "../lib/p4pfighters.json";
-  import { selectedFighters } from '../lib/selectedFighters';
+  import { storeFighter1, storeFighter2 } from '../lib/selectedFighters.js';
 
   onMount(() => {
     // Function to update the radar chart based on selected fighters
@@ -11,7 +11,10 @@
       // Convert selected fighter IDs to numbers
       const selectedFighter1 = +fighter1;
       const selectedFighter2 = +fighter2;
-
+      
+      console.log("blauw fighter1:", selectedFighter1);
+      console.log("rood fighter2:", selectedFighter2);
+      
       // Extracting data for the selected fighters
       const fightersData = dataset
         .filter(fighter => fighter.id === selectedFighter1 || fighter.id === selectedFighter2)
@@ -23,9 +26,9 @@
             takedown_accuracy: fighter.takedown_accuracy,
             takedown_defense: fighter.takedown_defense,
           },
-          color: index === 0 ? "blue" : "red", // Assign colors dynamically based on order
+          color: fighter.id === selectedFighter1 ? "blue" : "red", // Assign colors dynamically based on order
         }));
-
+        console.log(fightersData);
       // Update the chart based on the selected fighters
       updateChart(svg, fightersData);
     }
@@ -58,6 +61,16 @@
         .attr("r", 5)
         .style("fill", d => d.fighter.color)
         .style("opacity", 0.8);
+
+      // Add labels for each metric
+      const labels = svg.selectAll(".label")
+        .data(metrics)
+        .enter().append("text")
+        .attr("x", (d, i) => rScale.range()[1] * Math.cos((i * 2 * Math.PI) / metrics.length - Math.PI / 2))
+        .attr("y", (d, i) => rScale.range()[1] * Math.sin((i * 2 * Math.PI) / metrics.length - Math.PI / 2))
+        .text(d => d)
+        .style("text-anchor", "middle")
+        .style("font-size", "12px");
     }
 
     // Extracting data from the dataset
@@ -136,12 +149,16 @@
       const selectedFighter1 = dropdown.property("value");
       const selectedFighter2 = dropdown2.property("value");
       updateRadarChart(selectedFighter1, selectedFighter2);
+      storeFighter1.set(selectedFighter1);
+      storeFighter2.set(selectedFighter2);
     });
 
     dropdown2.on("change", () => {
       const selectedFighter1 = dropdown.property("value");
       const selectedFighter2 = dropdown2.property("value");
       updateRadarChart(selectedFighter1, selectedFighter2);
+      storeFighter1.set(selectedFighter1);
+      storeFighter2.set(selectedFighter2);
     });
   });
 </script>
