@@ -114,27 +114,30 @@
       svg.append("g")
         .attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
         .call(d3.axisBottom(xScale))
-        .append("text")
-        .attr("x", width - margin.left - margin.right)
-        .attr("y", -10)
-        .attr("dy", "0.71em")
-        .style("text-anchor", "end")
-        .text("Reach (cm)");
   
       // Add y-axis
       svg.append("g")
         .call(d3.axisLeft(yScale))
-        .append("text")
+
+      // Add x-axis label
+      svg.append("text")
+        .attr("transform", `translate(${width / 2},${height + margin.top - 50})`)
+        .style("text-anchor", "middle")
+        .text("Reach (cm)");
+
+      // Add y-axis label
+      svg.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("y", 10)
-        .attr("dy", "0.71em")
-        .style("text-anchor", "end")
+        .attr("y", 0 - margin.left)
+        .attr("x", 0 - (height / 2.5))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
         .text("Height (cm)");
   
       // Add CSS styles
       svg.style("background-color", "#f9f9f9");
   
-      svg.selectAll("circle")
+      svg.selectAll(".fighterBubble")
         .style("stroke", "#fff")
         .style("stroke-width", 2);
     });
@@ -142,9 +145,18 @@
 
 <!-- HTML -->
 <h2>Scatterplot: Height vs. Reach</h2>
+<p>Bubble size = Fighter weight (kg)</p>
 <section id="scatterplot"></section>
 
 <style>
+  h2 {
+    text-align: center;
+  }
+  p {
+    text-align: center;
+    margin-bottom: 1em;
+
+  }
   #scatterplot {
     display: flex;
     justify-content: center;

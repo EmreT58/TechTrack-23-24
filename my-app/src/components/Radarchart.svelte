@@ -69,7 +69,6 @@
               <strong>takedown accuracy:</strong> ${d.metrics.takedown_accuracy}%<br>
               <strong>takedown defense:</strong> ${d.metrics.takedown_defense}%
             `)
-            .style("color", fighter => fighter.color)
             .style("top", event.pageY + "px")
             .style("left", event.pageX + "px");
         })
@@ -90,15 +89,25 @@
 
 
       // Add labels for each metric
+      const labelMargin = 20; // Adjust this value to increase or decrease the distance from the center
       const labels = svg.selectAll(".label")
         .data(metrics)
         .enter().append("text")
-        .attr("x", (d, i) => rScale.range()[1] * Math.cos((i * 2 * Math.PI) / metrics.length - Math.PI / 2))
-        .attr("y", (d, i) => rScale.range()[1] * Math.sin((i * 2 * Math.PI) / metrics.length - Math.PI / 2))
-        .text(d => d)
+        .attr("x", (d, i) => (rScale.range()[1] + labelMargin) * Math.cos((i * 2 * Math.PI) / metrics.length - Math.PI / 2))
+        .attr("y", (d, i) => (rScale.range()[1] + labelMargin) * Math.sin((i * 2 * Math.PI) / metrics.length - Math.PI / 2))
+        .text(d => d.replace(/_/g, ' ')) // Label formatting - replacing underscores with a space
         .style("text-anchor", "middle")
-        .style("font-size", "12px");
-    }
+        .attr("transform", (d, i) => {
+          const angle = (i * 360) / metrics.length; // Calculate the angle for each label
+          const x = (rScale.range()[1] + labelMargin) * Math.cos((angle - 90) * (Math.PI / 180));
+          const y = (rScale.range()[1] + labelMargin) * Math.sin((angle - 90) * (Math.PI / 180));
+
+        // Check if the label needs special rotation
+        const rotation = d === "significant_strike_defence" ? 90 : (d === "takedown_defense" ? -90 : 0);
+
+        return `rotate(${rotation} ${x},${y})`;
+      })
+      }
 
     // Extracting data from the dataset
     const fightersData = dataset.map(fighter => ({
@@ -189,7 +198,7 @@
 </script>
 
 <!-- HTML -->
-<h2>Fighter Comparison Radar Chart</h2>
+<h2>Select 2 fighters you want to compare</h2>
 <section>
   <div id="fighter-selector">
     <div>
@@ -206,6 +215,10 @@
 
 <!-- CSS -->
 <style>
+  h2 {
+    text-align: center;
+    margin-top: 1em;
+  }
   section {
     display: flex;
     height: auto;
@@ -216,6 +229,12 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+  }
+  #fighter-selector > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
   }
   #radarchart {
     display: flex;

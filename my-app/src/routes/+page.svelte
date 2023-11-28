@@ -30,6 +30,7 @@
         background-color: aliceblue;
         padding: 1.5em;
         border-radius: 50px;
+        border-style: ridge;
         margin: 1em auto 1em auto;
     }
 </style>
