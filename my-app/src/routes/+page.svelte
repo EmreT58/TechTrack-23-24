@@ -1,19 +1,22 @@
 <script>
     import '../styles/global.css';
-    import Barchart from "../components/Header.svelte"
-    import Barchart2 from '../components/Test.svelte'
-    import Stackedbars from '../components/P4p.svelte';
+    import Barchart1 from "../components/Barchart1.svelte"
+    import Barchart2 from '../components/Barchart2.svelte'
+    import Stackedbars from '../components/Stackedbars.svelte';
     import Radarchart from '../components/Radarchart.svelte';
-    import Fighter1 from '../components/Fighter1.svelte';
+    import Scatterplot from '../components/Scatterplot.svelte';
     import Divergingbarchart from '../components/Divergingbarchart.svelte';
-    import Fighterselector from '../components/Fighterselector.svelte';
+    import Header from '../components/Header.svelte'
 </script>
 <!-- Data visualisation components go in the main -->
 <main>
+    <Header/>
     <Radarchart/>
-    <Fighter1/>
+    <Scatterplot/>
+
+
     <!-- <Stackedbars/> -->
-    <!-- <Barchart/> -->
+    <!-- <Barchart1/> -->
     <!-- <Barchart2/> -->
 </main>
 
@@ -23,7 +26,7 @@
         flex-direction: column;
         justify-content: center;
         align-content: center;
-        width: 50%;
+        width: 60vw;
         background-color: aliceblue;
         padding: 1.5em;
         border-radius: 50px;

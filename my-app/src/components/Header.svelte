@@ -1,71 +1,39 @@
+<!-- Scatterplot.svelte -->
 <script>
-  import { onMount } from "svelte";
-  import * as d3 from 'd3';
-  // import dataset from "../lib/data.json";
+    import { onMount } from "svelte";
+    import * as d3 from 'd3';
+    import dataset from "../lib/p4pfighters.json";
+    import { storeFighter1, storeFighter2 } from '../lib/selectedFighters.js';
 
-  // Fake data for demonstration
-  const dataset = [
-    { label: "Khabib Nurmagomedov", value: 30 },
-    { label: "Conor Mcgregor", value: 45 },
-    { label: "Dustin Poirier", value: 20 },
-    { label: "Islam Makhachev", value: 60 },
-    { label: "Jon Jones", value: 10 }
-  ];
+    var d3Active = false;
 
-  onMount(() => {
-    // Select the chart container
-    const chartContainer = d3.select("#chart-container");
+    // Function in order to highlight the 2 selected fighters
+    storeFighter1.subscribe((fighterId) => {
+      console.log("storeupdate", fighterId);
+      fighterId = +fighterId;
+      if (d3Active == true) { //hierin komt code
 
-    // Set the width and height of the chart
-    const margin = { top: 20, right: 30, bottom: 30, left: 40 };
-    const width = 400 - margin.left - margin.right;
-    const height = 300 - margin.top - margin.bottom;
+      } 
+    })
 
-    // Create an SVG element
-    const svg = chartContainer.append("svg")
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g') // Append a group element to hold the chart
-      .attr('transform', `translate(${margin.left},${margin.top})`);
+    // Function in order to highlight the 2 selected fighters
+    storeFighter2.subscribe((fighterId) => {
+      console.log("storeupdate", fighterId);
+      fighterId = +fighterId;
+      if (d3Active == true) { // hierin komt code
+        
+      } 
+    })
 
-    // Create scales for x and y axes
-    const xScale = d3.scaleBand()
-      .domain(dataset.map((d) => d.label))
-      .range([0, width])
-      .padding(0.1);
+    onMount(() => {
 
-    const yScale = d3.scaleLinear()
-      .domain([0, d3.max(dataset, (d) => d.value)])
-      .range([height, 0]);
-
-    // Create bars
-    svg.selectAll("rect")
-      .data(dataset)
-      .enter()
-      .append("rect")
-      .attr("x", (d) => xScale(d.label))
-      .attr("y", (d) => yScale(d.value))
-      .attr("width", xScale.bandwidth())
-      .attr("height", (d) => height - yScale(d.value))
-      .attr("fill", "steelblue");
-
-    // Create x-axis
-    svg.append("g")
-      .attr("transform", `translate(0, ${height})`)
-      .call(d3.axisBottom(xScale));
-
-    // Create y-axis
-    svg.append("g")
-      .call(d3.axisLeft(yScale));
-  });
+    });
 </script>
-  <!-- HTML -->
-  <section>
-    <h1>Fighter 2</h1>
-    <div id="chart-container"></div>
-  </section>
-  <!-- CSS -->
-  <style>
 
-  </style>
-  
+<!-- HTML -->
+<img src="/images/ufc-logo.png" alt="ufc logo">
+<h1> Top 10 - Pound For Pound fighters Of The World</h1>
+
+<style>
+/* additional CSS */
+</style>

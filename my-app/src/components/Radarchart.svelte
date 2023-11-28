@@ -6,7 +6,7 @@
   import { storeFighter1, storeFighter2 } from '../lib/selectedFighters.js';
 
   onMount(() => {
-    // Function to update the radar chart based on selected fighters
+    // Function to update the radar radarchart based on selected fighters
     function updateRadarChart(fighter1, fighter2) {
       // Convert selected fighter IDs to numbers
       const selectedFighter1 = +fighter1;
@@ -28,18 +28,28 @@
           },
           color: fighter.id === selectedFighter1 ? "blue" : "red", // Assign colors dynamically based on order
         }));
+
         console.log(fightersData);
-      // Update the chart based on the selected fighters
+      // Update the radarchart based on the selected fighters
       updateChart(svg, fightersData);
     }
 
-    // Function to update the radar chart
+    // Function to update the radar radarchart
     function updateChart(svg, fighters) {
       // Create line function
       const line = d3.lineRadial()
         .angle((_, i) => (i * 2 * Math.PI) / metrics.length)
         .radius(d => rScale(d))
         .curve(d3.curveLinearClosed); // Close the path
+
+      // Add a tooltip
+      const tooltip = d3.select("#radarchart")
+        .append("div")
+        .style("position", "absolute")
+        .style("visibility", "hidden")
+        .style("background-color", "white")
+        .style("padding", "5px")
+        .style("border-radius", "5px");
 
       // Update lines
       svg.selectAll(".line")
@@ -49,8 +59,24 @@
         .attr("d", fighter => line(metrics.map(metric => fighter.metrics[metric])))
         .attr("stroke", fighter => fighter.color)
         .attr("fill", fighter => fighter.color) // Set fill color
-        .attr("fill-opacity", 0.1); // Set fill opacity
-
+        .attr("fill-opacity", 0.1) // Set fill opacity
+        .on("mouseover", (event, d) => {
+          tooltip.style("visibility", "visible")
+            .html(`
+              <strong>Name:</strong> ${d.name}<br>
+              <strong>striking accuracy:</strong> ${d.metrics.significant_striking_accuracy}%<br>
+              <strong>striking defence:</strong> ${d.metrics.significant_strike_defence}%<br>
+              <strong>takedown accuracy:</strong> ${d.metrics.takedown_accuracy}%<br>
+              <strong>takedown defense:</strong> ${d.metrics.takedown_defense}%
+            `)
+            .style("color", fighter => fighter.color)
+            .style("top", event.pageY + "px")
+            .style("left", event.pageX + "px");
+        })
+        .on("mouseout", () => {
+          tooltip.style("visibility", "hidden");
+        });
+        
       // Update data points
       svg.selectAll(".dot")
         .data(fighters.flatMap(d => metrics.map(metric => ({ fighter: d, metric: metric }))))
@@ -61,6 +87,7 @@
         .attr("r", 5)
         .style("fill", d => d.fighter.color)
         .style("opacity", 0.8);
+
 
       // Add labels for each metric
       const labels = svg.selectAll(".label")
@@ -85,14 +112,14 @@
       },
     }));
 
-    // Set up the dimensions of the chart
-    const width = 800;
+    // Set up the dimensions of the radarchart
+    const width = 400;
     const height = 400;
     const margin = { top: 50, right: 50, bottom: 50, left: 50 };
-    const radius = Math.min(width / 2, height) / 2 - margin.top; // Adjusted radius
+    const radius = Math.min(width / 2, height) / 1 - margin.top; // Adjusted radius
 
-    // Create SVG container for the chart
-    const svg = d3.select("#chart")
+    // Create SVG container for the radarchart
+    const svg = d3.select("#radarchart")
       .append("svg")
       .attr("width", width)
       .attr("height", height)
@@ -150,32 +177,54 @@
       const selectedFighter2 = dropdown2.property("value");
       updateRadarChart(selectedFighter1, selectedFighter2);
       storeFighter1.set(selectedFighter1);
-      storeFighter2.set(selectedFighter2);
     });
 
     dropdown2.on("change", () => {
       const selectedFighter1 = dropdown.property("value");
       const selectedFighter2 = dropdown2.property("value");
       updateRadarChart(selectedFighter1, selectedFighter2);
-      storeFighter1.set(selectedFighter1);
       storeFighter2.set(selectedFighter2);
     });
   });
 </script>
 
 <!-- HTML -->
-<h1>Fighter Comparison Radar Chart</h1>
-<div>
-  <label for="fighterDropdown">Select Fighter 1:</label>
-  <select id="fighterDropdown"></select>
-</div>
-<div>
-  <label for="fighterDropdown2">Select Fighter 2:</label>
-  <select id="fighterDropdown2"></select>
-</div>
-<div id="chart"></div>
+<h2>Fighter Comparison Radar Chart</h2>
+<section>
+  <div id="fighter-selector">
+    <div>
+      <label for="fighterDropdown">Fighter 1:</label>
+      <select id="fighterDropdown"></select>
+    </div>
+    <div>
+      <label for="fighterDropdown2">Fighter 2:</label>
+      <select id="fighterDropdown2"></select>
+    </div>
+  </div>
+  <div id="radarchart"></div>
+</section>
 
 <!-- CSS -->
 <style>
-  /* Add any additional styling here */
+  section {
+    display: flex;
+    height: auto;
+    width: 100%;
+    flex-direction: column;
+  }
+  #fighter-selector {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  #radarchart {
+    display: flex;
+    justify-content: center;
+  }
+  #fighter-selector > div:first-of-type {
+    color: blue;
+  }
+  #fighter-selector > div:last-of-type {
+    color: red;
+  }
 </style>
