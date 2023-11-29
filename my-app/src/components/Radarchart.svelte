@@ -6,15 +6,87 @@
   import { storeFighter1, storeFighter2 } from '../lib/selectedFighters.js';
 
   onMount(() => {
+    // Extracting data from the dataset
+    const fightersData = dataset.map(fighter => ({
+      id: fighter.id,
+      name: fighter.name,
+      metrics: {
+        significant_striking_accuracy: fighter.significant_striking_accuracy,
+        significant_strike_defence: fighter.significant_strike_defence,
+        takedown_accuracy: fighter.takedown_accuracy,
+        takedown_defense: fighter.takedown_defense,
+      },
+    }));
+
+    // Set up the dimensions of the radarchart
+    const width = 400;
+    const height = 400;
+    const margin = { top: 50, right: 50, bottom: 50, left: 50 };
+    const radius = Math.min(width / 2, height) / 1 - margin.top; // Adjusted radius
+
+    // Create SVG container for the radarchart
+    const svg = d3.select("#radarchart")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .append("g")
+      .attr("transform", `translate(${width / 2},${height / 2})`);
+
+    // List of metric names
+    const metrics = Object.keys(fightersData[0].metrics);
+
+    // Scale for the radius
+    const rScale = d3.scaleLinear()
+      .domain([0, 100]) // Assuming percentages for the metrics
+      .range([0, radius]);
+
+    // Add labels for each metric
+    const labelMargin = 20; // Adjust this value to increase or decrease the distance from the center
+    const labels = svg.selectAll(".label")
+      .data(metrics)
+      .enter().append("text")
+      .attr("x", (d, i) => (rScale.range()[1] + labelMargin) * Math.cos((i * 2 * Math.PI) / metrics.length - Math.PI / 2))
+      .attr("y", (d, i) => (rScale.range()[1] + labelMargin) * Math.sin((i * 2 * Math.PI) / metrics.length - Math.PI / 2))
+      .text(d => d.replace(/_/g, ' ')) // Label formatting - replacing underscores with a space
+      .style("text-anchor", "middle")
+      .attr("transform", (d, i) => {
+        const angle = (i * 360) / metrics.length; // Calculate the angle for each label
+        const x = (rScale.range()[1] + labelMargin) * Math.cos((angle - 90) * (Math.PI / 180));
+        const y = (rScale.range()[1] + labelMargin) * Math.sin((angle - 90) * (Math.PI / 180));
+        // Check if the label needs special rotation
+        const rotation = d === "significant_strike_defence" ? 90 : (d === "takedown_defense" ? -90 : 0);
+        return `rotate(${rotation} ${x},${y})`;
+      });
+
+      // Create a circular grid
+      const circles = svg.selectAll("circle")
+        .data(rScale.ticks(5).slice(1))
+        .enter().append("circle")
+        .attr("r", d => rScale(d))
+        .style("stroke", "#888")
+        .style("fill", "none");
+
+      // Add labels to the circular grid
+      const gridLabels = svg.selectAll(".grid-label")
+        .data(rScale.ticks(5).slice(1))
+        .enter().append("text")
+        .attr("class", "grid-label")
+        .attr("x", 4) // Adjust the position of the labels based on your design
+        .attr("y", d => -rScale(d) + 22) // Adjust the offset for better centering
+        .text(d => `${d}%`)
+        .style("text-anchor", "middle")
+        .style("opacity", "50%")
+        // .style("alignment-baseline", "middle");
+
     // Function to update the radar radarchart based on selected fighters
     function updateRadarChart(fighter1, fighter2) {
       // Convert selected fighter IDs to numbers
       const selectedFighter1 = +fighter1;
       const selectedFighter2 = +fighter2;
-      
+
       console.log("blauw fighter1:", selectedFighter1);
       console.log("rood fighter2:", selectedFighter2);
-      
+
       // Extracting data for the selected fighters
       const fightersData = dataset
         .filter(fighter => fighter.id === selectedFighter1 || fighter.id === selectedFighter2)
@@ -29,7 +101,7 @@
           color: fighter.id === selectedFighter1 ? "blue" : "red", // Assign colors dynamically based on order
         }));
 
-        console.log(fightersData);
+      console.log(fightersData);
       // Update the radarchart based on the selected fighters
       updateChart(svg, fightersData);
     }
@@ -75,7 +147,7 @@
         .on("mouseout", () => {
           tooltip.style("visibility", "hidden");
         });
-        
+
       // Update data points
       svg.selectAll(".dot")
         .data(fighters.flatMap(d => metrics.map(metric => ({ fighter: d, metric: metric }))))
@@ -86,77 +158,14 @@
         .attr("r", 5)
         .style("fill", d => d.fighter.color)
         .style("opacity", 0.8);
-
-
-      // Add labels for each metric
-      const labelMargin = 20; // Adjust this value to increase or decrease the distance from the center
-      const labels = svg.selectAll(".label")
-        .data(metrics)
-        .enter().append("text")
-        .attr("x", (d, i) => (rScale.range()[1] + labelMargin) * Math.cos((i * 2 * Math.PI) / metrics.length - Math.PI / 2))
-        .attr("y", (d, i) => (rScale.range()[1] + labelMargin) * Math.sin((i * 2 * Math.PI) / metrics.length - Math.PI / 2))
-        .text(d => d.replace(/_/g, ' ')) // Label formatting - replacing underscores with a space
-        .style("text-anchor", "middle")
-        .attr("transform", (d, i) => {
-          const angle = (i * 360) / metrics.length; // Calculate the angle for each label
-          const x = (rScale.range()[1] + labelMargin) * Math.cos((angle - 90) * (Math.PI / 180));
-          const y = (rScale.range()[1] + labelMargin) * Math.sin((angle - 90) * (Math.PI / 180));
-
-        // Check if the label needs special rotation
-        const rotation = d === "significant_strike_defence" ? 90 : (d === "takedown_defense" ? -90 : 0);
-
-        return `rotate(${rotation} ${x},${y})`;
-      })
-      }
-
-    // Extracting data from the dataset
-    const fightersData = dataset.map(fighter => ({
-      id: fighter.id,
-      name: fighter.name,
-      metrics: {
-        significant_striking_accuracy: fighter.significant_striking_accuracy,
-        significant_strike_defence: fighter.significant_strike_defence,
-        takedown_accuracy: fighter.takedown_accuracy,
-        takedown_defense: fighter.takedown_defense,
-      },
-    }));
-
-    // Set up the dimensions of the radarchart
-    const width = 400;
-    const height = 400;
-    const margin = { top: 50, right: 50, bottom: 50, left: 50 };
-    const radius = Math.min(width / 2, height) / 1 - margin.top; // Adjusted radius
-
-    // Create SVG container for the radarchart
-    const svg = d3.select("#radarchart")
-      .append("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .append("g")
-      .attr("transform", `translate(${width / 2},${height / 2})`);
-
-    // List of metric names
-    const metrics = Object.keys(fightersData[0].metrics);
-
-    // Scale for the radius
-    const rScale = d3.scaleLinear()
-      .domain([0, 100]) // Assuming percentages for the metrics
-      .range([0, radius]);
-
-    // Create a circular grid
-    const circles = svg.selectAll("circle")
-      .data(rScale.ticks(5).slice(1))
-      .enter().append("circle")
-      .attr("r", d => rScale(d))
-      .style("stroke", "#888")
-      .style("fill", "none");
+    }
 
     // Dropdown menu for fighter selection
     const dropdown = d3.select("#fighterDropdown");
     dropdown
       .append("option")
       .text("Select a fighter")
-      .attr("value", "");
+      .attr("value", "0");
 
     dropdown
       .selectAll("option:not(:first-child)")
@@ -170,7 +179,7 @@
     dropdown2
       .append("option")
       .text("Select a fighter")
-      .attr("value", "");
+      .attr("value", "0");
 
     dropdown2
       .selectAll("option:not(:first-child)")
@@ -198,7 +207,6 @@
 </script>
 
 <!-- HTML -->
-<h2>Select 2 fighters you want to compare</h2>
 <section>
   <div id="fighter-selector">
     <div>
@@ -210,31 +218,39 @@
       <select id="fighterDropdown2"></select>
     </div>
   </div>
+  <hr>
+  <h3>Radarchart: Fighter Skills Accuracy</h3>
   <div id="radarchart"></div>
 </section>
 
 <!-- CSS -->
 <style>
-  h2 {
-    text-align: center;
-    margin-top: 1em;
-  }
   section {
     display: flex;
     height: auto;
     width: 100%;
     flex-direction: column;
   }
+  h3 {
+    text-align: center;
+  }
   #fighter-selector {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin: 1em 0em;
+  }
+  select {
+    margin-top: 0.3em;
   }
   #fighter-selector > div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
+  }
+  hr {
+    margin: 1em;
   }
   #radarchart {
     display: flex;

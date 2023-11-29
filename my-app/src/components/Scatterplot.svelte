@@ -5,7 +5,7 @@
     import dataset from "../lib/p4pfighters.json";
     import { storeFighter1, storeFighter2 } from '../lib/selectedFighters.js';
 
-    var d3Active = false;
+    var d3Active = false; //svelte check
 
     // Function to highlight the selected fighters
     function highlightSelectedFighter(fighterId1, fighterId2) {
@@ -13,7 +13,7 @@
       fighterId1 = +fighterId1;
       fighterId2 = +fighterId2;
       
-      if (d3Active == true) {
+      if (d3Active == true) { //sveltecheck causes this to only work after the bubbles are generated
         d3.selectAll('circle.fighterBubble').style("fill", (data) => {
           if (data.id === fighterId1) {
             return "blue";
@@ -146,18 +146,21 @@
 </script>
 
 <!-- HTML -->
-<h2>Scatterplot: Height vs. Reach</h2>
+<hr>
+<h3>Scatterplot: Height, Reach and Weight</h3>
 <p>Bubble size = Fighter weight (kg)</p>
 <section id="scatterplot"></section>
 
 <style>
-  h2 {
+  hr {
+    margin: 0em 1em 1em 1em;
+  }
+  h3 {
     text-align: center;
   }
   p {
     text-align: center;
-    margin-bottom: 1em;
-
+    margin-bottom: 1em
   }
   #scatterplot {
     display: flex;

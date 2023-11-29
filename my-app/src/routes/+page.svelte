@@ -1,11 +1,7 @@
 <script>
     import '../styles/global.css';
-    import Barchart1 from "../components/Barchart1.svelte"
-    import Barchart2 from '../components/Barchart2.svelte'
-    import Stackedbars from '../components/Stackedbars.svelte';
     import Radarchart from '../components/Radarchart.svelte';
     import Scatterplot from '../components/Scatterplot.svelte';
-    import Divergingbarchart from '../components/Divergingbarchart.svelte';
     import Header from '../components/Header.svelte'
 </script>
 <!-- Data visualisation components go in the main -->
@@ -13,11 +9,6 @@
     <Header/>
     <Radarchart/>
     <Scatterplot/>
-    <!-- <Divergingbarchart/> -->
-
-    <!-- <Stackedbars/> -->
-    <!-- <Barchart1/> -->
-    <!-- <Barchart2/> -->
 </main>
 
 <style>
@@ -33,4 +24,10 @@
         border-style: ridge;
         margin: 1em auto 1em auto;
     }
+    @media only screen and (max-width: 1200px) {
+        main {
+        width: 90vw;
+        font-size: small;
+    }
+}
 </style>

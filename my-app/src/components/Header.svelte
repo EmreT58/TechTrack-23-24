@@ -3,32 +3,19 @@
     import { storeFighter1, storeFighter2 } from '../lib/selectedFighters.js';
     import dataset from "../lib/p4pfighters.json";
 
+    // fighter mugshot selector | 0 = placeholder image
     let fighter1Img = 0;
     let fighter2Img = 0;
-    // Function in order to highlight the 2 selected fighters
+
+    // Convert selected fighter 1's id to image id
     storeFighter1.subscribe((fighterId) => {
       fighter1Img = fighterId;
     })
 
-    // Function in order to highlight the 2 selected fighters
+    // Convert selected fighter 2's id to image id
     storeFighter2.subscribe((fighterId) => {
       fighter2Img = fighterId;
-
     })
-
-    // Extracting data for the selected fighters
-    const fightersData = dataset
-  .filter(fighter => fighter.id === fighter1Img || fighter.id === fighter2Img)
-  .map((fighter, index) => ({
-    name: fighter.name,
-    metrics: {
-      name: fighter.name,
-      nickname: fighter.nickname,
-      p4p_ranking: fighter.p4p_ranking,
-      stance: fighter.stance,
-    }
-  }));
-
 </script>
 
 <!-- HTML -->
@@ -36,15 +23,15 @@
   <img src="/images/ufc-logo.png" alt="UFC logo">
   <h1>- Top 10 Pound For Pound Fighters</h1>
 </header>
+<hr>
+<h2>Select 2 fighters you want to compare</h2>
 <section>
   <article>
     <h3>Blue corner</h3>
-    <h4>Fighter1</h4>
     <img src="/images/mugshots/{fighter1Img}.png" alt="Mugshot fighter 1">
   </article>
   <article>
-    <h2>Red corner</h2>
-    <h4>Fighter2</h4>
+    <h3>Red corner</h3>
     <img src="/images/mugshots/{fighter2Img}.png" alt="Mugshot fighter 1">
   </article>
 </section>
@@ -62,39 +49,46 @@
   }
   header img {
     width: 10em;
-    height: auto; 
+    height: auto;
   }
-  /* additional CSS */
+  hr {
+    margin: 1em;
+  }
+  h2 {
+    text-align: center;
+  }
   section {
     display: flex;
     width: 100%;
-    height: 50vh;
     flex-direction: row;
     justify-content: space-around;
   }
-  article {
-    display: flex;
-    width: 40%;
-    height: auto;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 1em;
-  }
   section article {
     display: flex;
+    width: 40%;
     flex-direction: column;
-    justify-content: end;
+    align-items: center;
+    border-radius: 1em;
+    justify-content: space-between;
+    overflow: hidden;
+    height: 275px;
   }
   section> article:first-of-type {
-    background-color: paleturquoise;
+    background-color: cornflowerblue;
   }
   section> article:last-of-type {
-    background-color: salmon;
+    background-color: tomato;
   }
   section article img {
     width: 100%;
     height: auto;
-
+  }
+  section article h3 {
+    margin-top: 1em;
+  }
+  @media only screen and (max-width: 1200px) {
+    section article {
+      height: auto;
+    }
   }
 </style>
