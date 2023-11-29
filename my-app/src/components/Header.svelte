@@ -1,33 +1,34 @@
 <!-- Scatterplot.svelte -->
 <script>
-    import { onMount } from "svelte";
-    import * as d3 from 'd3';
-    import dataset from "../lib/p4pfighters.json";
     import { storeFighter1, storeFighter2 } from '../lib/selectedFighters.js';
+    import dataset from "../lib/p4pfighters.json";
 
-    var d3Active = false;
-
+    let fighter1Img = 0;
+    let fighter2Img = 0;
     // Function in order to highlight the 2 selected fighters
     storeFighter1.subscribe((fighterId) => {
-      console.log("storeupdate", fighterId);
-      fighterId = +fighterId;
-      if (d3Active == true) { //hierin komt code
-
-      } 
+      fighter1Img = fighterId;
     })
 
     // Function in order to highlight the 2 selected fighters
     storeFighter2.subscribe((fighterId) => {
-      console.log("storeupdate", fighterId);
-      fighterId = +fighterId;
-      if (d3Active == true) { // hierin komt code
-        
-      } 
+      fighter2Img = fighterId;
+
     })
 
-    onMount(() => {
+    // Extracting data for the selected fighters
+    const fightersData = dataset
+  .filter(fighter => fighter.id === fighter1Img || fighter.id === fighter2Img)
+  .map((fighter, index) => ({
+    name: fighter.name,
+    metrics: {
+      name: fighter.name,
+      nickname: fighter.nickname,
+      p4p_ranking: fighter.p4p_ranking,
+      stance: fighter.stance,
+    }
+  }));
 
-    });
 </script>
 
 <!-- HTML -->
@@ -37,12 +38,14 @@
 </header>
 <section>
   <article>
-    <h3>Fighter1</h3>
-    <img src="/images/" alt="Mugshot fighter 1">
+    <h3>Blue corner</h3>
+    <h4>Fighter1</h4>
+    <img src="/images/mugshots/{fighter1Img}.png" alt="Mugshot fighter 1">
   </article>
   <article>
-    <h3>Fighter2</h3>
-    <img src="" alt="Mugshot fighter 2">
+    <h2>Red corner</h2>
+    <h4>Fighter2</h4>
+    <img src="/images/mugshots/{fighter2Img}.png" alt="Mugshot fighter 1">
   </article>
 </section>
 
@@ -53,7 +56,6 @@
     justify-content: space-around;
     width: 95%;
     height: 10vh;
-    border: 5px solid red;
     margin: 1em;
     text-align: center;
     align-items: center;
@@ -64,7 +66,6 @@
   }
   /* additional CSS */
   section {
-    border: 1px solid red;
     display: flex;
     width: 100%;
     height: 50vh;
@@ -78,6 +79,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 1em;
+  }
+  section article {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
   }
   section> article:first-of-type {
     background-color: paleturquoise;
@@ -85,9 +92,9 @@
   section> article:last-of-type {
     background-color: salmon;
   }
-  article > img {
-    border: 1px solid blue;
-    height: 100%;
+  section article img {
+    width: 100%;
+    height: auto;
 
   }
 </style>
