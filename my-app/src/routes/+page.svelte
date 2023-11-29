@@ -13,7 +13,7 @@
     <Header/>
     <Radarchart/>
     <Scatterplot/>
-
+    <!-- <Divergingbarchart/> -->
 
     <!-- <Stackedbars/> -->
     <!-- <Barchart1/> -->

@@ -67,11 +67,13 @@
       // Create scales
       const xScale = d3.scaleLinear()
         .domain([160, d3.max(scatterData, d => d.reach)]) // Modified to start at 160
-        .range([0, width - margin.left - margin.right]);
+        .range([0, width - margin.left - margin.right])
+        .nice();
   
       const yScale = d3.scaleLinear()
         .domain([0, d3.max(scatterData, d => d.height)])
-        .range([height - margin.top - margin.bottom, 0]);
+        .range([height - margin.top - margin.bottom, 0])
+        .nice();
   
       const sizeScale = d3.scaleLinear()
         .domain([0, d3.max(scatterData, d => d.weight)])

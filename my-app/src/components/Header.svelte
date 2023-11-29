@@ -31,11 +31,14 @@
 </script>
 
 <!-- HTML -->
-<h1>UFC - Top 10 Pound For Pound Fighters </h1>
+<header>
+  <img src="/images/ufc-logo.png" alt="UFC logo">
+  <h1>- Top 10 Pound For Pound Fighters</h1>
+</header>
 <section>
   <article>
     <h3>Fighter1</h3>
-    <img src="" alt="Mugshot fighter 1">
+    <img src="/images/" alt="Mugshot fighter 1">
   </article>
   <article>
     <h3>Fighter2</h3>
@@ -44,35 +47,47 @@
 </section>
 
 <style>
-/* additional CSS */
-h1 {
-  text-align: center;
-}
-section {
-  border: 1px solid red;
-  display: flex;
-  width: 100%;
-  height: 50vh;
-  flex-direction: row;
-  justify-content: space-around;
-}
-article {
-  display: flex;
-  width: 40%;
-  height: auto;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-section> article:first-of-type {
-  background-color: paleturquoise;
-}
-section> article:last-of-type {
-  background-color: salmon;
-}
-article > img {
-  border: 1px solid blue;
-  height: 100%;
+  header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 95%;
+    height: 10vh;
+    border: 5px solid red;
+    margin: 1em;
+    text-align: center;
+    align-items: center;
+  }
+  header img {
+    width: 10em;
+    height: auto; 
+  }
+  /* additional CSS */
+  section {
+    border: 1px solid red;
+    display: flex;
+    width: 100%;
+    height: 50vh;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  article {
+    display: flex;
+    width: 40%;
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  section> article:first-of-type {
+    background-color: paleturquoise;
+  }
+  section> article:last-of-type {
+    background-color: salmon;
+  }
+  article > img {
+    border: 1px solid blue;
+    height: 100%;
 
-}
+  }
 </style>
