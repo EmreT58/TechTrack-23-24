@@ -7,6 +7,7 @@
 
   onMount(() => {
     // Extracting data from the dataset
+    // First data extraction for initializing radar chart with all fighters' metrics
     const fightersData = dataset.map(fighter => ({
       id: fighter.id,
       name: fighter.name,
@@ -71,23 +72,23 @@
         .data(rScale.ticks(5).slice(1))
         .enter().append("text")
         .attr("class", "grid-label")
-        .attr("x", 4) // Adjust the position of the labels based on your design
-        .attr("y", d => -rScale(d) + 22) // Adjust the offset for better centering
+        .attr("x", 4) // Adjust labels position on X-axis
+        .attr("y", d => -rScale(d) + 22) // Adjust the offset for better centering on the Y-axis
         .text(d => `${d}%`)
         .style("text-anchor", "middle")
-        .style("opacity", "50%")
-        // .style("alignment-baseline", "middle");
+        .style("opacity", "50%") // Label opacity to make it subtle
 
-    // Function to update the radar radarchart based on selected fighters
-    function updateRadarChart(fighter1, fighter2) {
+    // Function to update the radar radarchart based on selected fighters | (bad function name)
+    function updateRadarChart(fighter1, fighter2) { // function updateSelectedFighters(fighter1, fighter2)
       // Convert selected fighter IDs to numbers
       const selectedFighter1 = +fighter1;
       const selectedFighter2 = +fighter2;
 
-      console.log("blauw fighter1:", selectedFighter1);
-      console.log("rood fighter2:", selectedFighter2);
+      console.log("Blauw Fighter1:", selectedFighter1);
+      console.log("Bood Fighter2:", selectedFighter2);
 
       // Extracting data for the selected fighters
+      // Second data extraction within update function for selected fighters
       const fightersData = dataset
         .filter(fighter => fighter.id === selectedFighter1 || fighter.id === selectedFighter2)
         .map((fighter, index) => ({
@@ -100,8 +101,6 @@
           },
           color: fighter.id === selectedFighter1 ? "blue" : "red", // Assign colors dynamically based on order
         }));
-
-      console.log(fightersData);
       // Update the radarchart based on the selected fighters
       updateChart(svg, fightersData);
     }
@@ -128,7 +127,7 @@
         .data(fighters)
         .join("path")
         .attr("class", "line")
-        .attr("d", fighter => line(metrics.map(metric => fighter.metrics[metric])))
+        .attr("d", fighter => line(metrics.map(metric => fighter.metrics[metric]))) // This translates the metric values of a specific fighter into the corresponding line in the radar chart
         .attr("stroke", fighter => fighter.color)
         .attr("fill", fighter => fighter.color) // Set fill color
         .attr("fill-opacity", 0.1) // Set fill opacity
@@ -155,33 +154,33 @@
         .attr("class", "dot")
         .attr("cx", d => rScale(d.fighter.metrics[d.metric]) * Math.cos((metrics.indexOf(d.metric) * 2 * Math.PI) / metrics.length - Math.PI / 2))
         .attr("cy", d => rScale(d.fighter.metrics[d.metric]) * Math.sin((metrics.indexOf(d.metric) * 2 * Math.PI) / metrics.length - Math.PI / 2))
-        .attr("r", 5)
+        .attr("r", 5) // Dot sizing / radius
         .style("fill", d => d.fighter.color)
         .style("opacity", 0.8);
     }
 
     // Dropdown menu for fighter selection
     const dropdown = d3.select("#fighterDropdown");
-    dropdown
+    dropdown // Placeholder option - First dropdown
       .append("option")
       .text("Select a fighter")
       .attr("value", "0");
 
-    dropdown
-      .selectAll("option:not(:first-child)")
-      .data(dataset.map(d => ({ id: d.id, name: d.name })))
+    dropdown // First dropdown
+      .selectAll("option:not(:first-child)") // Select all options except first
+      .data(dataset.map(d => ({ id: d.id, name: d.name }))) // Creates an object with id and name properties
       .enter()
       .append("option")
       .text(d => d.name)
-      .attr("value", d => d.id);
+      .attr("value", d => d.id); // Assigns corresponding fighter ID to option value
 
     const dropdown2 = d3.select("#fighterDropdown2");
-    dropdown2
+    dropdown2 // Placeholder option - Second dropdown
       .append("option")
       .text("Select a fighter")
       .attr("value", "0");
 
-    dropdown2
+    dropdown2 // Second dropdown
       .selectAll("option:not(:first-child)")
       .data(dataset.map(d => ({ id: d.id, name: d.name })))
       .enter()

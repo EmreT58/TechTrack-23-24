@@ -1,7 +1,6 @@
 <!-- Scatterplot.svelte -->
 <script>
     import { storeFighter1, storeFighter2 } from '../lib/selectedFighters.js';
-    import dataset from "../lib/p4pfighters.json";
 
     // fighter mugshot selector | 0 = placeholder image
     let fighter1Img = 0;

@@ -10,7 +10,7 @@
     // Function to highlight the selected fighters
     function highlightSelectedFighter(fighterId1, fighterId2) {
       console.log("storeupdate", fighterId1, fighterId2);
-      fighterId1 = +fighterId1;
+      fighterId1 = +fighterId1; // Makes sure that the ID's are integers and not strings
       fighterId2 = +fighterId2;
       
       if (d3Active == true) { //sveltecheck causes this to only work after the bubbles are generated
@@ -27,6 +27,7 @@
     }
 
     // Subscribe to both storeFighter1 and storeFighter2
+    // This double subscription ensures that there are always only 2 highlighted players
     storeFighter1.subscribe(($fighterId1) => {
       storeFighter2.subscribe(($fighterId2) => {
         highlightSelectedFighter($fighterId1, $fighterId2);
@@ -68,7 +69,7 @@
       const xScale = d3.scaleLinear()
         .domain([160, d3.max(scatterData, d => d.reach)]) // Modified to start at 160
         .range([0, width - margin.left - margin.right])
-        .nice();
+        .nice(); // adding valie to last tick
   
       const yScale = d3.scaleLinear()
         .domain([0, d3.max(scatterData, d => d.height)])
@@ -77,7 +78,7 @@
   
       const sizeScale = d3.scaleLinear()
         .domain([0, d3.max(scatterData, d => d.weight)])
-        .range([5, 20]);
+        .range([5, 20]); // Controlls and maintains an appropiate sizing range for the circles
   
       // Add a tooltip
       const tooltip = d3.select("#scatterplot")
@@ -95,7 +96,7 @@
         .attr("cx", d => xScale(d.reach))
         .attr("cy", d => yScale(d.height))
         .attr("r", d => sizeScale(d.weight))
-        .classed('fighterBubble', true)
+        .classed('fighterBubble', true) // Add class to enable interaction
         .style("opacity", 0.7)
         .on("mouseover", (event, d) => {
           tooltip.style("visibility", "visible")
@@ -135,10 +136,7 @@
         .attr("dy", "1em")
         .style("text-anchor", "middle")
         .text("Height (cm)");
-  
-      // Add CSS styles
-      svg.style("background-color", "#f9f9f9");
-  
+
       svg.selectAll(".fighterBubble")
         .style("stroke", "#fff")
         .style("stroke-width", 2);
